@@ -23,4 +23,14 @@ describe('model', function() {
 		expect(model.changed.dispatch).toHaveBeenCalledWith('title', newTitle, testObject.title);
 	});
 
+	it('should automatically update a property of destination object with a value from a model object', function() {
+		var destination = {
+				output : ''
+			};
+
+		model.bind('title').to(destination, 'output');
+		model.title = 'Binding';
+		expect(destination.output).toBe('Binding');
+	});
+
 });
