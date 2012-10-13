@@ -10,9 +10,12 @@ describe 'helper', ->
 					id : 1234
 					firstName : 'Derek'
 					lastName : 'Santos'
+					phone : '555-555-5555'
+					email : 'test@leanjs.org'
 					address : lean.model
 						street : '123 fake street',
 						city : 'Toronto'
+						country : 'Canada'
 						zip : 12345
 		helper = lean.helper('simpleView', dom)
 		
@@ -28,10 +31,50 @@ describe 'helper', ->
 		expect(helper.personTable.addressCell.cityAndCountry.element.nodeName).toBe('SPAN')
 		expect(helper.personTable.addressCell.zip.element.nodeName).toBe('SPAN')
 
-	it 'should set helpers model object and initialize bindings', ->
-		expect(helper.model.id).toBe(app.model.person.id)
-		expect(helper.personTable.addressCell.model.street).toBe('123 fake street')
-		expect(helper.personTable.addressCell.street.model.street).toBe('123 fake street')
-		expect(helper.personTable.addressCell.cityAndCountry.model.city).toBe('Toronto')
-		expect(helper.personTable.addressCell.zip.model.zip).toBe(12345)
-		expect(helper.title.element.innerText).toBe('Derek Santos')
+	it 'should set model objects on helper and nested helpers', ->
+		person = app.model.person
+		expect(helper.model.id).toBe(person.id)
+
+		addressCell = helper.personTable.addressCell
+		model = addressCell.model
+		expect(model.street).toBe(person.address.street)
+
+		expect(addressCell.street.model.street).toBe(person.address.street)
+		expect(addressCell.cityAndCountry.model.city).toBe(person.address.city)
+		expect(addressCell.cityAndCountry.model.country).toBe(person.address.country)
+		expect(addressCell.zip.model.zip).toBe(person.address.zip)
+		
+	it 'should initiaize bindings for helper', ->
+		person = app.model.person
+		address = person.address
+
+		runExpectations = ->
+			expect(helper.title.element.innerText).toBe("#{person.firstName} #{person.lastName}")
+
+			html = helper.personTable.element.innerHTML
+			expect(html).toMatch(person.phone)
+			expect(html).toMatch(person.email)
+
+			addressCell = helper.personTable.addressCell
+			expect(addressCell.street.element.innerText).toBe("#{address.street},")
+			expect(addressCell.cityAndCountry.element.innerText).toBe("#{address.city}, #{address.country},")
+			expect(addressCell.zip.element.innerText).toBe("#{address.zip}")
+
+		runExpectations()
+
+		person.phone = '555-111-2222'
+		person.email = 'fake@leanjs.org'
+		address.street = '987 not fake street'
+		address.city = 'Miami'
+		address.country = 'USA'
+		address.zip = 9876
+
+		runExpectations()
+
+
+
+
+
+
+
+

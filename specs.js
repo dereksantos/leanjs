@@ -27,9 +27,12 @@
             id: 1234,
             firstName: 'Derek',
             lastName: 'Santos',
+            phone: '555-555-5555',
+            email: 'test@leanjs.org',
             address: lean.model({
               street: '123 fake street',
               city: 'Toronto',
+              country: 'Canada',
               zip: 12345
             })
           })
@@ -47,13 +50,41 @@
       expect(helper.personTable.addressCell.cityAndCountry.element.nodeName).toBe('SPAN');
       return expect(helper.personTable.addressCell.zip.element.nodeName).toBe('SPAN');
     });
-    return it('should set helpers model object and initialize bindings', function() {
-      expect(helper.model.id).toBe(app.model.person.id);
-      expect(helper.personTable.addressCell.model.street).toBe('123 fake street');
-      expect(helper.personTable.addressCell.street.model.street).toBe('123 fake street');
-      expect(helper.personTable.addressCell.cityAndCountry.model.city).toBe('Toronto');
-      expect(helper.personTable.addressCell.zip.model.zip).toBe(12345);
-      return expect(helper.title.element.innerText).toBe('Derek Santos');
+    it('should set model objects on helper and nested helpers', function() {
+      var addressCell, model, person;
+      person = app.model.person;
+      expect(helper.model.id).toBe(person.id);
+      addressCell = helper.personTable.addressCell;
+      model = addressCell.model;
+      expect(model.street).toBe(person.address.street);
+      expect(addressCell.street.model.street).toBe(person.address.street);
+      expect(addressCell.cityAndCountry.model.city).toBe(person.address.city);
+      expect(addressCell.cityAndCountry.model.country).toBe(person.address.country);
+      return expect(addressCell.zip.model.zip).toBe(person.address.zip);
+    });
+    return it('should initiaize bindings for helper', function() {
+      var address, person, runExpectations;
+      person = app.model.person;
+      address = person.address;
+      runExpectations = function() {
+        var addressCell, html;
+        expect(helper.title.element.innerText).toBe("" + person.firstName + " " + person.lastName);
+        html = helper.personTable.element.innerHTML;
+        expect(html).toMatch(person.phone);
+        expect(html).toMatch(person.email);
+        addressCell = helper.personTable.addressCell;
+        expect(addressCell.street.element.innerText).toBe("" + address.street + ",");
+        expect(addressCell.cityAndCountry.element.innerText).toBe("" + address.city + ", " + address.country + ",");
+        return expect(addressCell.zip.element.innerText).toBe("" + address.zip);
+      };
+      runExpectations();
+      person.phone = '555-111-2222';
+      person.email = 'fake@leanjs.org';
+      address.street = '987 not fake street';
+      address.city = 'Miami';
+      address.country = 'USA';
+      address.zip = 9876;
+      return runExpectations();
     });
   });
 
@@ -117,8 +148,6 @@
     });
   });
 
-  fixtures.simpleview = "<div id=\"simpleView\" data-model=\"app.model.person\">\n	<h2 id=\"title\" data-bind=\"{firstName} {lastName}\"></h2>\n	<table id=\"personTable\">\n		<tr>\n			<th>Phone #:</th>\n			<td data-bind=\"{phone}\"></td>\n		</tr>\n		<tr>\n			<th>Address:</th>\n			<td id=\"addressCell\" data-model=\"app.model.person.address\">\n				<span id=\"street\" data-bind=\"{street},\"></span><br/>\n				<span id=\"cityAndCountry\" data-bind=\"{city}, {country},\"></span><br/>\n				<span id=\"zip\" data-bind=\"{zip}\"></span>\n			</td>\n		</tr>\n		<tr>\n			<th>Email:</th>\n			<td data-bind=\"{email}\"></td>\n		</tr>\n	</table>\n</div>";
-
   describe('util', function() {
     beforeEach(function() {
       return window.app = {
@@ -163,5 +192,7 @@
       return expect(result.length).toBe(2);
     });
   });
+
+  fixtures.simpleview = "<div id=\"simpleView\" data-model=\"app.model.person\">\n	<h2 id=\"title\" data-bind=\"${firstName} ${lastName}\"></h2>\n	<table id=\"personTable\">\n		<tr>\n			<th>Phone #:</th>\n			<td data-bind=\"${phone}\"></td>\n		</tr>\n		<tr>\n			<th>Address:</th>\n			<td id=\"addressCell\" data-model=\"app.model.person.address\">\n				<span id=\"street\" data-bind=\"${street},\"></span><br/>\n				<span id=\"cityAndCountry\" data-bind=\"${city}, ${country},\"></span><br/>\n				<span id=\"zip\" data-bind=\"${zip}\"></span>\n			</td>\n		</tr>\n		<tr>\n			<th>Email:</th>\n			<td data-bind=\"${email}\"></td>\n		</tr>\n	</table>\n</div>";
 
 }).call(this);
