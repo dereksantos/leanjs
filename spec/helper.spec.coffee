@@ -48,7 +48,7 @@ describe 'helper', ->
 		person = app.model.person
 		address = person.address
 
-		runExpectations = ->
+		verify = ->
 			expect(helper.title.element.innerText).toBe("#{person.firstName} #{person.lastName}")
 
 			html = helper.personTable.element.innerHTML
@@ -60,7 +60,7 @@ describe 'helper', ->
 			expect(addressCell.cityAndCountry.element.innerText).toBe("#{address.city}, #{address.country},")
 			expect(addressCell.zip.element.innerText).toBe("#{address.zip}")
 
-		runExpectations()
+		verify()
 
 		person.phone = '555-111-2222'
 		person.email = 'fake@leanjs.org'
@@ -69,7 +69,7 @@ describe 'helper', ->
 		address.country = 'USA'
 		address.zip = 9876
 
-		runExpectations()
+		verify()
 
 
 
