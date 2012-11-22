@@ -1,0 +1,86 @@
+body {
+	background: url('debut_light.png');
+	font-family: Arial, Serif;
+	font-size: 0.9em;
+	color: #555555;
+}
+
+div.title {
+	font-family: 'Josefin Slab', serif;
+	padding: 20px 40px;
+	font-size: 2em;
+}
+
+div.title span.lean {
+	color: #077641;
+	font-style: italic;
+}
+
+div.title span.js {
+	color: #333333;
+}
+
+a {
+	color: #999999;
+	text-decoration: none;
+	padding: 5px 10px;
+	font-size: 1em;
+}
+
+p {
+	font-family: serif;
+	font-size:1.5em;
+}
+
+a:hover {
+	color: #333333;
+}
+
+a.active {
+	color: #333333;
+	border-bottom: 2px solid #077641;
+}
+
+div {
+	/*border: 1px dashed red;*/
+}
+
+div.page {
+	width : 800px;
+	height: 100%;
+}
+
+div.content {
+	width: 650px;
+	padding-top: 30px;
+}
+
+div.section .title {
+	font-size: 1.5em;
+	color: #077641;
+}
+
+div.code-example {
+	width: 320px;
+	text-align: left;
+}
+
+div.left {
+	float: left;
+}
+
+div.right {
+	float: right;
+}
+
+div.code-example .language {
+	width: 100%;
+	text-align: center;
+	font-size: 0.9em;
+	font-weight: bold;
+}
+
+pre {
+	background: #EEEEEE;
+}
+

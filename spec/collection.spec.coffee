@@ -98,12 +98,4 @@ describe 'collection', ->
 		collection.replace 1,
 			name : 'replaced'
 			email : 'replaced@example.com'
-
-
-
-
-
-	
-
-
 		

@@ -1,0 +1,55 @@
+<html>
+<head>
+	<title>LeanJS | JavaScript Binding</title>
+	<link href='http://fonts.googleapis.com/css?family=Josefin+Slab:400,400italic' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="themes/tricolore.css">
+	<link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+	<center>
+		<div class="page">
+			<div>
+				
+				<div class="title">
+					<span class="lean">lean</span><span class="js">js</span>
+				</div>
+
+				<a href="#" class="active">Getting Started</a>
+				<a href="#">Documentation</a> 
+				<a href="#">Downloads</a>
+				<a href="#">Source Code</a>
+			</div>
+			<div class="content">
+				<p>
+				LeanJS is a lightweight binding framework for javascript and html projects.  The core principles of LeanJS are simplicity, performance and readability.
+				</p>
+				<div class="section">
+					<div class="title">Hello World!</div>
+
+					<div class="code-example left">
+						<div class="language">JavaScript</div>
+						<pre data-language="javascript">
+var myModel = lean.model({
+	first : 'Hello',
+	second : 'World!'
+});
+						</pre>
+					</div>
+					<div class="code-example right">
+						<div class="language">HTML</div>
+						<pre data-language="html">
+&lt;div data-model=&quot;myModel&quot;&gt;
+   &lt;span data-bind=&quot;${first}, ${second}&quot;&gt;
+   &lt;/span&gt;
+&lt;/div&gt;
+						</pre>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</center>
+
+	<script src="rainbow-custom.min.js" type="text/javascript"></script>
+</body>
+</html>

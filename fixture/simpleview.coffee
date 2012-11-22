@@ -20,5 +20,27 @@ fixtures.simpleview =
 			<td data-bind="${email}"></td>
 		</tr>
 	</table>
+
+	<table id="friendsTable">
+		<theader>
+			<tr>
+				<th>ID</th>
+				<th>Name</th>
+				<th>Email</th>
+			</tr>
+		</theader>
+		<tbody data-list="friends">
+			<tr>
+				<td data-bind="${id}></td>
+				<td data-bind="${name}></td>
+				<td data-bind="${email}></td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td colspan="3" data-bind="friends.size"></td>
+			</tr>
+		</tfoot>
+	</table>
 </div>
 """

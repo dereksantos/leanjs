@@ -62,12 +62,15 @@ describe 'helper', ->
 
 		verify()
 
-		person.phone = '555-111-2222'
-		person.email = 'fake@leanjs.org'
-		address.street = '987 not fake street'
-		address.city = 'Miami'
-		address.country = 'USA'
-		address.zip = 9876
+		person.set
+			phone : '555-111-2222'
+			email : 'fake@leanjs.org'
+
+		person.address.set
+			street : '987 not fake street'
+			city : 'Miami'
+			country : 'USA'
+			zip : 9876
 
 		verify()
 
