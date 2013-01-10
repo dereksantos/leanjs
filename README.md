@@ -1,52 +1,66 @@
 leanjs
 ======
 
-A lean, lightweight javascript framework.
+A lean, lightweight javascript binding framework.
 
-the focus:
+A Simple Example
+----------------
 
-simplicity
-performance
-readability
-standalone
-good documentation
+### Model
 
-<div data-list="people">
-	<img data-bind="${img}" data-to="src" />
-	<span data-bind="${name}"></span>
-	<span data-list="friends" data-bind="${name},"></span>
-</div>
+To set-up your model, use the lean.model method on any object.
 
-new DataList() {
-	this.collection = collection;
-	this.helpers = helpers;
-
-}
+	window.mymodel = lean.model({
+		name : 'LeanJS',
+		email : 'lean@js.com'
+  	});
 
 
+### View
+
+To bind the model to the view, declare a data-model attribute on any tag. Also make sure you give the element an id, you'll need it later.
+
+	<div id="myview" data-model="mymodel">
+	</div>
+
+Then, you can use the data-bind attribute to bind properties to the text node of your elements.
+
+	<div id="myview" data-model="mymodel">
+		<span data-bind="${name}, ${email}"></span>
+	</div>
+
+### The Helper Method
+
+Lastly, call the lean.helper method and pass in the elements id.
+	
+	lean.helper('myview');
 
 
+### The completed example
+
+	<!DOCTYPE html>
+	<html>
+	<head>
+		<meta charset="utf-8">
+		<title>LeanJS Example</title>
+		<script src="lean.js"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				window.mymodel = lean.model({
+					name : 'LeanJS',
+					email : 'lean@js.com'
+			  	});
+
+			  	var myViewHelper = lean.helper('myview'); //This trigger bindings and watch for changes.
+			};
+		</script>
+	</head>
+	<body>
+		<div id="myview" data-model="mymodel">
+			<span data-bind="${name}, ${email}"></span>
+		</div>
+	</body>
+	</html>
 
 
-ideas for collections
-
-<div id="mydiv" data-model="app.model.people">
-
-</div>
-
-thoughts on using collections for html lists
-	allow tokens in id attribute(otherwise generate one)
-	clone all child nodes
-
-things needed:
-	dispose() method for all lean apis
-		should be recursive
-
-Needed documentation
-
-api docs
-browser support
-dependencies
-getting started
-screen casts
-user guide
+Disclaimer: LeanJS is still under development and not complete.
